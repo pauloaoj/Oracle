@@ -261,7 +261,7 @@ WHERE NVL(:FILTRADIF,'N') = 'S'
     
 ORDER BY  CODPAR_ORD, codparc, CODPARCF
 
-
+sera aonde que esta o defeito??!?!?
 
 
            
