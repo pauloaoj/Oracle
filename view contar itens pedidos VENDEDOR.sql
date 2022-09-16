@@ -1,0 +1,41 @@
+CREATE OR REPLACE FORCE VIEW SANKHYA.VGFCAB_CONT_SKU_VEN
+(
+    NUNOTA,
+    CODVEND,
+     
+    DTNEG,
+    CONTADORITENS,
+    GRUP
+)
+BEQUEATH DEFINER
+AS
+      SELECT  NUNOTA, 
+        CODVEND, 
+          
+        DTNEG,
+        COUNT (DISTINCT (CODPROD))     CONTADORITENS,
+        GRUP 
+        FROM (
+    SELECT       CAB.NUNOTA,
+             CAB.CODVEND,
+              
+             CAB.DTNEG,
+             ITE.CODPROD,
+             (SELECT GRUP FROM  (SELECT CODPROD, (CASE 
+                WHEN (PRO2.AD_CODFAMILIA=9)                     THEN 'Agua'
+                WHEN (PRO2.AD_CODFAMILIA in (1,2,3,4,5,6,7,8))  THEN 'Refri'
+                WHEN (PRO2.AD_CODFAMILIA=10)                    THEN 'Cerveja'
+                WHEN (PRO2.AD_CODFAMILIA=11)                    THEN 'Sucos'
+                ELSE 'sem_grupo' END) as GRUP  FROM TGFPRO PRO2 WHERE PRO2.CODPROD=PRO.CODPROD)  )AS GRUP          
+             
+        FROM TGFCAB CAB,
+             TGFITE ITE,
+             TGFPRO PRO
+       WHERE     CAB.TIPMOV = 'V'
+             AND ITE.CODPROD = PRO.CODPROD
+             AND CAB.NUNOTA = ITE.NUNOTA
+             AND (CAB.DTNEG>='01/03/2022'  AND CAB.DTNEG<='31/03/2022')  )
+ GROUP BY NUNOTA, CODVEND,   DTNEG, GRUP
+      HAVING COUNT (DISTINCT (CODPROD)) > 1
+     
+WITH READ ONLY;

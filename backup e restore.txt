@@ -1,0 +1,3 @@
+exp system/Mineiro123 file=bkp_prod.dmp log=bkp_prod.log feedback=5000 statistics=none 
+
+imp system/Mineiro123 fromuser=sankhya touser=treina file=bkp_prod.dmp log=imp_treina.log ignore=y feedback=50000 statistics=none

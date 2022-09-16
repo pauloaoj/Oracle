@@ -1,0 +1,8 @@
+SELECT owner, segment_name, segment_type, extents, blocks, bytes 
+FROM dba_segments
+WHERE tablespace_name='SYSTEM'
+ORDER BY bytes;
+
+
+select * from dba_tables where tablespace_name='SYSTEM'
+and owner <> 'SYS';
